@@ -10,31 +10,25 @@ import org.springframework.web.filter.CorsFilter;
 @Configuration
 public class GlobalCorsConfig {
     @Bean
-    public CorsFilter corsFilter(CorsProperties corsProperties) {
+    public CorsFilter corsFilter() {
         //1.添加CORS配置信息
         CorsConfiguration config = new CorsConfiguration();
         //1) 允许的域,不要写*，否则cookie就无法使用了
-        for (String s : corsProperties.getAllowedOrigins()) {
-            config.addAllowedOrigin(s);
-        }
-//        config.addAllowedOrigin("http://manage.leyou.com");
+        config.addAllowedOrigin("http://manage.leyou.com");
         //2) 是否发送Cookie信息
-        config.setAllowCredentials(corsProperties.getAllowCredentials());
+        config.setAllowCredentials(false);
         //3) 允许的请求方式
-        for (String s : corsProperties.getAllowedMethods()) {
-            config.addAllowedMethod(s);
-        }
-        /*config.addAllowedMethod("OPTIONS");
+        config.addAllowedMethod("OPTIONS");
         config.addAllowedMethod("HEAD");
         config.addAllowedMethod("GET");
         config.addAllowedMethod("PUT");
         config.addAllowedMethod("POST");
         config.addAllowedMethod("DELETE");
-        config.addAllowedMethod("PATCH");*/
+        config.addAllowedMethod("PATCH");
         // 4）允许的头信息
         config.addAllowedHeader("*");
         // 5）配置有效期
-        config.setMaxAge(corsProperties.getMaxAge());
+        config.setMaxAge(3600l);
 
         //2.添加映射路径，我们拦截一切请求
         UrlBasedCorsConfigurationSource configSource = new UrlBasedCorsConfigurationSource();
