@@ -27,4 +27,6 @@ public interface IBrandService {
      * @param cidList
      */
     void updateBrand(Brand brand, List<Long> cidList);
+
+    void deleteBrand(Long bid);
 }

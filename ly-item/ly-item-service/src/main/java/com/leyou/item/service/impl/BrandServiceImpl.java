@@ -77,4 +77,17 @@ public class BrandServiceImpl implements IBrandService {
             }
         }
     }
+
+    @Override
+    @Transactional
+    public void deleteBrand(Long bid) {
+        brandMapper.deleteCids(bid);
+        if (bid == null) {
+            throw new LyException(ExceptionEnum.DELETE_BRAND_SERVER_ERROR);
+        }
+        int count = brandMapper.deleteByPrimaryKey(bid);
+        if (count == 0) {
+            throw new LyException(ExceptionEnum.DELETE_BRAND_SERVER_ERROR);
+        }
+    }
 }
