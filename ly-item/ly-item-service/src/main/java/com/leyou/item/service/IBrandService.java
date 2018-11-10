@@ -20,4 +20,11 @@ public interface IBrandService {
      * @param cidList   品牌所属类型
      */
     void addBrand(Brand brand, List<Long> cidList);
+
+    /**
+     * 修改品牌信息
+     * @param brand
+     * @param cidList
+     */
+    void updateBrand(Brand brand, List<Long> cidList);
 }

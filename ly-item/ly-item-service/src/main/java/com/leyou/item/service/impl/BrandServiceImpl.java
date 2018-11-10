@@ -61,4 +61,20 @@ public class BrandServiceImpl implements IBrandService {
             }
         }
     }
+
+    @Override
+    @Transactional
+    public void updateBrand(Brand brand, List<Long> cidList) {
+        int count = brandMapper.updateByPrimaryKey(brand);
+        if (count == 0) {
+            throw new LyException(ExceptionEnum.UPDATE_BRAND_SERVER_ERROR);
+        }
+        brandMapper.deleteCids(brand.getId());
+        for (Long cid : cidList) {
+            int i = brandMapper.insertCategoryBrand(cid, brand.getId());
+            if (i == 0) {
+                throw new LyException(ExceptionEnum.UPDATE_BRAND_CATEGORY_SERVER_ERROR);
+            }
+        }
+    }
 }

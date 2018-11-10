@@ -28,4 +28,10 @@ public class BrandController {
         brandService.addBrand(brand, cidList);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
+    @PutMapping
+    public ResponseEntity<Void> updateBrand(Brand brand,@RequestParam("cids")List<Long> cidList) {
+        brandService.updateBrand(brand, cidList);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 }
