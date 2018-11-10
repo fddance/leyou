@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import tk.mybatis.mapper.entity.Example;
 
@@ -44,5 +45,20 @@ public class BrandServiceImpl implements IBrandService {
         }
         PageInfo<Brand> brandPageInfo = new PageInfo<>(brands);
         return new PageResult<>(brandPageInfo.getTotal(),brandPageInfo.getList());
+    }
+
+    @Override
+    @Transactional
+    public void addBrand(Brand brand, List<Long> cidList) {
+        int count = brandMapper.insert(brand);
+        if (count == 0) {
+            throw new LyException(ExceptionEnum.INSERT_BRAND_SERVER_ERROR);
+        }
+        for (Long cid : cidList) {
+            int i = brandMapper.insertCategoryBrand(cid, brand.getId());
+            if (i == 0) {
+                throw new LyException(ExceptionEnum.INSERT_BRAND_CATEGORY_SERVER_ERROR);
+            }
+        }
     }
 }
