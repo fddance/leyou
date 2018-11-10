@@ -1,8 +1,12 @@
 package com.leyou.item.service.impl;
 
+import com.github.tobato.fastdfs.domain.StorePath;
+import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import com.leyou.item.common.enums.ExceptionEnum;
 import com.leyou.item.common.exception.LyException;
 import com.leyou.item.service.IUploadService;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,6 +22,9 @@ public class UploadServiceImpl implements IUploadService {
 
     private static final List<String> suffixes = Arrays.asList("image/png", "image/jpeg");
 
+    @Autowired
+    private FastFileStorageClient storageClient;
+
     @Override
     public String uploadImage(MultipartFile file) {
         try {
@@ -29,12 +36,9 @@ public class UploadServiceImpl implements IUploadService {
             if (bufferedImage == null) {
                 throw new LyException(ExceptionEnum.INVALID_FILE_TYPE);
             }
-            File dir = new File("E:\\nginx\\nginx-1.13.8\\html");
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
-            file.transferTo(new File(dir, file.getOriginalFilename()));
-            String url = "http://image.leyou.com/" + file.getOriginalFilename();
+            String s = StringUtils.substringAfterLast(file.getOriginalFilename(), ".");
+            StorePath storePath = storageClient.uploadFile(file.getInputStream(), file.getSize(), s, null);
+            String url = "http://image.leyou.com/" + storePath.getFullPath();
             return url;
         } catch (Exception e) {
             throw new LyException(ExceptionEnum.UPLOAD_IMAGE_ERROR);
