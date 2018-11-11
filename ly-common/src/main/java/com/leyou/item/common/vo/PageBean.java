@@ -14,4 +14,5 @@ public class PageBean {
     private Integer rows=5;
     private String sortBy=null;
     private Boolean desc=false;
+    private Boolean saleable = null;
 }
