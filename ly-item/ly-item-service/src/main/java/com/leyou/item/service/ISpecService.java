@@ -19,4 +19,40 @@ public interface ISpecService {
      * @return
      */
     List<SpecParam> querySpecParamsByGroupId(Long gid);
+
+    /**
+     * 修改商品详情组信息
+     * @param specGroup
+     */
+    void updateSpecGroup(SpecGroup specGroup);
+
+    /**
+     * 添加商品详情组信息
+     * @param specGroup
+     */
+    void addSpecGroup(SpecGroup specGroup);
+
+    /**
+     * 删除商品详情组信息
+     * @param gid
+     */
+    void deleteSpecGroupsByGid(Long gid);
+
+    /**
+     * 添加商品详情参数信息
+     * @param specParam
+     */
+    void addSpecParam(SpecParam specParam);
+
+    /**
+     * 修改商品详情参数信息
+     * @param specParam
+     */
+    void updateSpecParam(SpecParam specParam);
+
+    /**
+     * 根据商品详情参数id删除商品详情参数信息
+     * @param pid
+     */
+    void deleteSpecParamByPid(Long pid);
 }

@@ -17,6 +17,7 @@ public enum  ExceptionEnum {
     INVALID_FILE_TYPE(400,"无效的文件类型"),
     UPLOAD_IMAGE_ERROR(500, "上传文件错误"),
     UPDATE_BRAND_SERVER_ERROR(500, "修改品牌失败"),
+    UPDATE_SPECGROUP_SERVER_ERROR(500, "修改品牌失败"),
     UPDATE_BRAND_CATEGORY_SERVER_ERROR(500,"新增品牌种类时失败"),
     DELETE_BRAND_SERVER_ERROR(500, "新增品牌种类时失败"),
     BID_CANNOT_BE_NULL(400,"bid不能为空"),
