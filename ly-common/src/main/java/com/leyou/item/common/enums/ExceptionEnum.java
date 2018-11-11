@@ -21,6 +21,7 @@ public enum  ExceptionEnum {
     UPDATE_SPECGROUP_SERVER_ERROR(500, "修改品牌失败"),
     UPDATE_BRAND_CATEGORY_SERVER_ERROR(500,"新增品牌种类时失败"),
     DELETE_BRAND_SERVER_ERROR(500, "新增品牌种类时失败"),
+    INSERT_GOODS_SERVER_ERROR(500, "新增商品详情时失败"),
     BID_CANNOT_BE_NULL(400,"bid不能为空"),
     ;
 

@@ -3,6 +3,7 @@ package com.leyou.item.service;
 import com.leyou.item.common.vo.PageBean;
 import com.leyou.item.common.vo.PageResult;
 import com.leyou.item.pojo.Brand;
+import com.leyou.item.pojo.Category;
 
 import java.util.List;
 
@@ -29,4 +30,11 @@ public interface IBrandService {
     void updateBrand(Brand brand, List<Long> cidList);
 
     void deleteBrand(Long bid);
+
+    /**
+     * 根据分类查询品牌
+     * @param cid
+     * @return
+     */
+    List<Brand> queryBrandByCid(Long cid);
 }

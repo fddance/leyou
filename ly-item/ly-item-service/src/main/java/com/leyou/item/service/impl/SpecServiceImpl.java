@@ -35,9 +35,11 @@ public class SpecServiceImpl implements ISpecService {
     }
 
     @Override
-    public List<SpecParam> querySpecParamsByGroupId(Long gid) {
+    public List<SpecParam> querySpecParamsByGroupId(Long gid, Long cid, Boolean searching) {
         SpecParam specParam = new SpecParam();
         specParam.setGroupId(gid);
+        specParam.setCid(cid);
+        specParam.setSearching(searching);
         List<SpecParam> select = specParamMapper.select(specParam);
         if (CollectionUtils.isEmpty(select)) {
             throw new LyException(ExceptionEnum.SPECGROUP_NOT_FOUND);

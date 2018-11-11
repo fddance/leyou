@@ -41,8 +41,13 @@ public class SpecController {
     }
 
     @GetMapping("params")
-    public ResponseEntity<List<SpecParam>> querySpecParamsByGroupId(@RequestParam("gid") Long gid) {
-        return ResponseEntity.ok(specService.querySpecParamsByGroupId(gid));
+    public ResponseEntity<List<SpecParam>> querySpecParamsByGroupId(
+            @RequestParam(value = "gid",required = false) Long gid,
+            @RequestParam(value = "cid",required = false) Long cid,
+            @RequestParam(value = "searching",required = false) Boolean searching
+
+    ) {
+        return ResponseEntity.ok(specService.querySpecParamsByGroupId(gid, cid, searching));
     }
 
     @PostMapping("param")

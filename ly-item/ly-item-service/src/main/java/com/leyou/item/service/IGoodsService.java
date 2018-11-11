@@ -11,4 +11,10 @@ public interface IGoodsService {
      * @return
      */
     PageResult<Spu> querySpu(PageBean pageBean);
+
+    /**
+     * 添加商品详情
+     * @param spu
+     */
+    void addGoods(Spu spu);
 }

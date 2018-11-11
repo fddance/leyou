@@ -14,11 +14,14 @@ public interface ISpecService {
     List<SpecGroup> querySpecGroupsByCid(Long cid);
 
     /**
-     * 根据商品详情组id查询详情字段
+     * 根据商品详情组id,或者种类id,或者是否查询字段查询详情字段
+     *
      * @param gid
+     * @param cid
+     * @param searching
      * @return
      */
-    List<SpecParam> querySpecParamsByGroupId(Long gid);
+    List<SpecParam> querySpecParamsByGroupId(Long gid, Long cid, Boolean searching);
 
     /**
      * 修改商品详情组信息

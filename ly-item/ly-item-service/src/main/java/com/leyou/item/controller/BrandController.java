@@ -3,6 +3,7 @@ package com.leyou.item.controller;
 import com.leyou.item.common.vo.PageBean;
 import com.leyou.item.common.vo.PageResult;
 import com.leyou.item.pojo.Brand;
+import com.leyou.item.pojo.Category;
 import com.leyou.item.service.IBrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,7 @@ public class BrandController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> updateBrand(Brand brand,@RequestParam("cids")List<Long> cidList) {
+    public ResponseEntity<Void> updateBrand(Brand brand, @RequestParam("cids") List<Long> cidList) {
         brandService.updateBrand(brand, cidList);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -39,5 +40,10 @@ public class BrandController {
     public ResponseEntity<Void> deleteBrand(@PathVariable("bid") Long bid) {
         brandService.deleteBrand(bid);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @GetMapping("cid/{cid}")
+    public ResponseEntity<List<Brand>> queryBrandByCid(@PathVariable("cid") Long cid) {
+        return ResponseEntity.ok(brandService.queryBrandByCid(cid));
     }
 }

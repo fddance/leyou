@@ -1,12 +1,15 @@
 package com.leyou.item.pojo;
 
 import lombok.Data;
+import lombok.Value;
 import tk.mybatis.mapper.annotation.KeySql;
 
+import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import java.util.Date;
+import java.util.List;
 
 @Table(name = "tb_spu")
 @Data
@@ -24,6 +27,11 @@ public class Spu {
     private Boolean valid;// 是否有效，逻辑删除用
     private Date createTime;// 创建时间
     private Date lastUpdateTime;// 最后修改时间
+
+    @Transient
+    private List<Sku> skus;
+    @Transient
+    private SpuDetail spuDetail;
 
     @Transient
     private String bname;

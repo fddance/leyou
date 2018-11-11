@@ -90,4 +90,13 @@ public class BrandServiceImpl implements IBrandService {
             throw new LyException(ExceptionEnum.DELETE_BRAND_SERVER_ERROR);
         }
     }
+
+    @Override
+    public List<Brand> queryBrandByCid(Long cid) {
+        List<Brand> list=brandMapper.queryByBrandByCid(cid);
+        if (CollectionUtils.isEmpty(list)) {
+            throw new LyException(ExceptionEnum.BRAND_NOT_FOUND);
+        }
+        return list;
+    }
 }
