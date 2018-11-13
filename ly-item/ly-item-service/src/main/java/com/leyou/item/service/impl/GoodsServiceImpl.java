@@ -163,15 +163,15 @@ public class GoodsServiceImpl implements IGoodsService {
     @Override
     @Transactional
     public void deleteGoodsById(Long id) {
-        int count = spuMapper.deleteByPrimaryKey(id);
+        Spu spu = new Spu();
+        spu.setId(id);
+        spu.setLastUpdateTime(new Date());
+        spu.setValid(false);
+        int count = spuMapper.updateByPrimaryKeySelective(spu);
         if (count != 1) {
             throw new LyException(ExceptionEnum.UPDATE_GOODS_SERVER_ERROR);
         }
-        count = spuDetailMapper.deleteByPrimaryKey(id);
-        if (count != 1) {
-            throw new LyException(ExceptionEnum.UPDATE_GOODS_SERVER_ERROR);
-        }
-        deleteSkusAndStocks(id);
+//        deleteSkusAndStocks(id);
     }
 
     /**
