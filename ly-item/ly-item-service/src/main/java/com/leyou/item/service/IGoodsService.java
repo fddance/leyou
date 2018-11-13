@@ -41,4 +41,17 @@ public interface IGoodsService {
      * @param spu
      */
     void updateGoods(Spu spu);
+
+    /**
+     * 修改商品上下架信息
+     * @param id
+     * @param saleable
+     */
+    void editSaleable(Long id, Boolean saleable);
+
+    /**
+     * 通过id删除商品信息
+     * @param id
+     */
+    void deleteGoodsById(Long id);
 }

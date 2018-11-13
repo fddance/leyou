@@ -143,21 +143,36 @@ public class GoodsServiceImpl implements IGoodsService {
         if (count != 1) {
             throw new LyException(ExceptionEnum.UPDATE_GOODS_SERVER_ERROR);
         }
-        Sku sku1 = new Sku();
-        sku1.setSpuId(spu_id);
-        List<Sku> select = skuMapper.select(sku1);
-        count = skuMapper.delete(sku1);
-        if (count != select.size()) {
-            throw new LyException(ExceptionEnum.UPDATE_GOODS_SERVER_ERROR);
-        }
-        List<Long> ids = select.stream().map(Sku::getId).collect(Collectors.toList());
-        count = stockMapper.deleteByIdList(ids);
-        if (count != select.size()) {
-            throw new LyException(ExceptionEnum.UPDATE_GOODS_SERVER_ERROR);
-        }
+        deleteSkusAndStocks(spu_id);
         addSkusAndStocks(spu);
     }
 
+    @Override
+    @Transactional
+    public void editSaleable(Long id, Boolean saleable) {
+        Spu spu = new Spu();
+        spu.setId(id);
+        spu.setSaleable(!saleable);
+        spu.setLastUpdateTime(new Date());
+        int count = spuMapper.updateByPrimaryKeySelective(spu);
+        if (count != 1) {
+            throw new LyException(ExceptionEnum.UPDATE_GOODS_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void deleteGoodsById(Long id) {
+        int count = spuMapper.deleteByPrimaryKey(id);
+        if (count != 1) {
+            throw new LyException(ExceptionEnum.UPDATE_GOODS_SERVER_ERROR);
+        }
+        count = spuDetailMapper.deleteByPrimaryKey(id);
+        if (count != 1) {
+            throw new LyException(ExceptionEnum.UPDATE_GOODS_SERVER_ERROR);
+        }
+        deleteSkusAndStocks(id);
+    }
 
     /**
      * TODO 插入商品sku信息及库存
@@ -182,6 +197,25 @@ public class GoodsServiceImpl implements IGoodsService {
             if (count != 1) {
                 throw new LyException(ExceptionEnum.INSERT_GOODS_SERVER_ERROR);
             }
+        }
+    }
+
+    /**
+     * TODO 根据商品spu的id删除商品sku信息及库存
+     * @param spu_id
+     */
+    private void deleteSkusAndStocks(Long spu_id) {
+        int count;Sku sku1 = new Sku();
+        sku1.setSpuId(spu_id);
+        List<Sku> select = skuMapper.select(sku1);
+        count = skuMapper.delete(sku1);
+        if (count != select.size()) {
+            throw new LyException(ExceptionEnum.UPDATE_GOODS_SERVER_ERROR);
+        }
+        List<Long> ids = select.stream().map(Sku::getId).collect(Collectors.toList());
+        count = stockMapper.deleteByIdList(ids);
+        if (count != select.size()) {
+            throw new LyException(ExceptionEnum.UPDATE_GOODS_SERVER_ERROR);
         }
     }
 }

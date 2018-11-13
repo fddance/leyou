@@ -45,4 +45,17 @@ public class GoodsController {
         goodsService.updateGoods(spu);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    @PutMapping("/spu/editSaleable/{id}/{saleable}")
+    public ResponseEntity<Void> editSaleable(@PathVariable("id") Long id,
+                                             @PathVariable("saleable") Boolean saleable) {
+        goodsService.editSaleable(id, saleable);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @DeleteMapping("spu/delete/{id}")
+    public ResponseEntity<Void> deleteGoodsById(@PathVariable("id") Long id) {
+        goodsService.deleteGoodsById(id);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
 }
