@@ -19,6 +19,7 @@ import tk.mybatis.mapper.entity.Example;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -96,9 +97,76 @@ public class GoodsServiceImpl implements IGoodsService {
 
     }
 
+    @Override
+    public SpuDetail selectGoodsDetail(Long id) {
+        SpuDetail spuDetail = spuDetailMapper.selectByPrimaryKey(id);
+        if (spuDetail == null) {
+            throw new LyException(ExceptionEnum.GOODS_NOT_FOUND);
+        }
+        return spuDetail;
+    }
+
+    @Override
+    public List<Sku> selectSkusBySpuId(Long id) {
+        Sku t = new Sku();
+        t.setSpuId(id);
+        List<Sku> skus = skuMapper.select(t);
+        if (CollectionUtils.isEmpty(skus)) {
+            throw new LyException(ExceptionEnum.GOODS_NOT_FOUND);
+        }
+        List<Long> ids = skus.stream().map(Sku::getId).collect(Collectors.toList());
+        List<Stock> stocks = stockMapper.selectByIdList(ids);
+        if (CollectionUtils.isEmpty(stocks)) {
+            throw new LyException(ExceptionEnum.GOODS_NOT_FOUND);
+        }
+        Map<Long, Integer> collect = stocks.stream().collect(Collectors.toMap(Stock::getSkuId, Stock::getStock));
+        for (Sku sku : skus) {
+            sku.setStock(collect.get(sku.getId()));
+        }
+        return skus;
+    }
+
+    @Override
+    @Transactional
+    public void updateGoods(Spu spu) {
+        spu.setLastUpdateTime(new Date());
+        spu.setSaleable(true);
+        spu.setValid(true);
+        Long spu_id = spu.getId();
+        int count = spuMapper.updateByPrimaryKeySelective(spu);
+        if (count != 1) {
+            throw new LyException(ExceptionEnum.UPDATE_GOODS_SERVER_ERROR);
+        }
+        SpuDetail spuDetail = spu.getSpuDetail();
+        spuDetail.setSpuId(spu_id);
+        count = spuDetailMapper.updateByPrimaryKeySelective(spuDetail);
+        if (count != 1) {
+            throw new LyException(ExceptionEnum.UPDATE_GOODS_SERVER_ERROR);
+        }
+        Sku sku1 = new Sku();
+        sku1.setSpuId(spu_id);
+        List<Sku> select = skuMapper.select(sku1);
+        count = skuMapper.delete(sku1);
+        if (count != select.size()) {
+            throw new LyException(ExceptionEnum.UPDATE_GOODS_SERVER_ERROR);
+        }
+        List<Long> ids = select.stream().map(Sku::getId).collect(Collectors.toList());
+        count = stockMapper.deleteByIdList(ids);
+        if (count != select.size()) {
+            throw new LyException(ExceptionEnum.UPDATE_GOODS_SERVER_ERROR);
+        }
+        addSkusAndStocks(spu);
+    }
+
+
+    /**
+     * TODO 插入商品sku信息及库存
+     * @param spu
+     */
     private void addSkusAndStocks(Spu spu) {
         Long spu_id =spu.getId() ;
-        int count;List<Sku> skus = spu.getSkus();
+        int count;
+        List<Sku> skus = spu.getSkus();
         for (Sku sku : skus) {
             sku.setSpuId(spu_id);
             sku.setCreateTime(new Date());
