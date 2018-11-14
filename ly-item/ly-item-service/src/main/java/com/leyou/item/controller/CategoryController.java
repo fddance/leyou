@@ -23,7 +23,12 @@ public class CategoryController {
     }
 
     @GetMapping("bid/{bid}")
-    public ResponseEntity<List<Category>> queryCategoryByBid(@PathVariable("bid") Long bid){
+    public ResponseEntity<List<Category>> queryCategoryByBid(@PathVariable("bid") Long bid) {
         return ResponseEntity.ok(categoryService.queryCategoryByBid(bid));
+    }
+
+    @GetMapping("list/ids")
+    public ResponseEntity<List<Category>> queryCategoryListByIds(@RequestParam("ids") List<Long> ids) {
+        return ResponseEntity.ok(categoryService.queryCategoryListByIds(ids));
     }
 }

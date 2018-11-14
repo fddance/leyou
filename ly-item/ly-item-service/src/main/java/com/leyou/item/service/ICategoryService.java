@@ -8,4 +8,6 @@ public interface ICategoryService {
     List<Category> queryCategoryList(Long pid);
 
     List<Category> queryCategoryByBid(Long bid);
+
+    List<Category> queryCategoryListByIds(List<Long> ids);
 }
