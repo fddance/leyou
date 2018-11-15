@@ -3,10 +3,10 @@ server:
 spring:
   application:
     name: search-service
-#  data:
-#    elasticsearch:
-#      cluster-name: elasticsearch
-#      cluster-nodes: 192.168.58.101:9300
+  data:
+    elasticsearch:
+      cluster-name: elasticsearch
+      cluster-nodes: 192.168.56.110:9300
   output:
     ansi:
       enabled: always

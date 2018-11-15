@@ -9,6 +9,7 @@ import com.leyou.item.common.vo.PageResult;
 import com.leyou.item.mapper.*;
 import com.leyou.item.pojo.*;
 import com.leyou.item.service.IGoodsService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class GoodsServiceImpl implements IGoodsService {
 
     @Autowired
@@ -45,6 +47,8 @@ public class GoodsServiceImpl implements IGoodsService {
 
     @Override
     public PageResult<Spu> querySpu(PageBean pageBean) {
+        log.warn(pageBean.toString());
+        log.warn(pageBean.getRows().toString());
         PageHelper.startPage(pageBean.getPage(), pageBean.getRows());
         Example example = new Example(Spu.class);
         Example.Criteria criteria = example.createCriteria();

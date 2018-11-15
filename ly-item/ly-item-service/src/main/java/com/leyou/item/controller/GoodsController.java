@@ -19,7 +19,7 @@ public class GoodsController {
     @Autowired
     private IGoodsService goodsService;
 
-    @GetMapping("spu/page")
+    @RequestMapping("spu/page")
     public ResponseEntity<PageResult<Spu>> querySpu(PageBean pageBean) {
         return ResponseEntity.ok(goodsService.querySpu(pageBean));
     }
