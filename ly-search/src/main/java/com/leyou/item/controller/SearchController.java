@@ -6,6 +6,8 @@ import com.leyou.item.pojo.Goods;
 import com.leyou.item.service.IGoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,8 +19,9 @@ public class SearchController {
     @Autowired
     private IGoodsService goodsService;
 
-    @RequestMapping("page")
-    public ResponseEntity<PageResult<Goods>> getGoodsListByPage(SearchRequest searchRequest) {
-        return ResponseEntity.ok(goodsService.getGoodsListByPage(searchRequest));
+    @PostMapping("page")
+    public ResponseEntity<PageResult<Goods>> getGoodsListByPage(@RequestBody SearchRequest searchRequest) {
+        PageResult<Goods> listByPage = goodsService.getGoodsListByPage(searchRequest);
+        return ResponseEntity.ok(listByPage);
     }
 }

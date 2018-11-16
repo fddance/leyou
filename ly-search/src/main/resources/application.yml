@@ -10,6 +10,8 @@ spring:
   output:
     ansi:
       enabled: always
+  jackson:
+    default-property-inclusion: non_null
 eureka:
   client:
     service-url:

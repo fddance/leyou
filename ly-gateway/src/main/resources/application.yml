@@ -28,3 +28,18 @@ ribbon:
   ReadTimeout: 3500 # ribbon读取超时时长
   MaxAutoRetries: 0  # 当前服务重试次数
   MaxAutoRetriesNextServer: 0 # 切换服务重试次数
+ly:
+  cors:
+    allowedOrigins:
+      - http://manage.leyou.com
+      - http://www.leyou.com
+    allowCredentials: true
+    allowedMethods:
+      - GET
+      - POST
+      - DELETE
+      - PUT
+      - OPTIONS
+      - HEAD
+      - PATCH
+    maxAge: 3600

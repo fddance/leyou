@@ -37,6 +37,6 @@ public class GoodesServiceImpl implements IGoodsService {
         queryBuilder.withQuery(QueryBuilders.matchQuery("all", key).operator(Operator.AND));
         queryBuilder.withPageable(PageRequest.of(searchRequest.getPage() - 1, searchRequest.getSize()));
         Page<Goods> search = goodsRepository.search(queryBuilder.build());
-        return new PageResult<>(search.getTotalElements(),search.getContent());
+        return new PageResult<>(search.getTotalElements(),search.getTotalPages(),search.getContent());
     }
 }
