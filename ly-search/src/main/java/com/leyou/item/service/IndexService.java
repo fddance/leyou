@@ -46,6 +46,7 @@ public class IndexService {
             map.put("title", sku.getTitle());
             map.put("images",sku.getImages());
             map.put("price", sku.getPrice());
+            skus.add(map);
         }
 
 

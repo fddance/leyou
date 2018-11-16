@@ -20,8 +20,13 @@ public class GoodsController {
     private IGoodsService goodsService;
 
     @RequestMapping("spu/page")
-    public ResponseEntity<PageResult<Spu>> querySpu(PageBean pageBean) {
-        return ResponseEntity.ok(goodsService.querySpu(pageBean));
+    public ResponseEntity<PageResult<Spu>> querySpu(
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @RequestParam(value = "rows", defaultValue = "5") Integer rows,
+            @RequestParam(value = "saleable", required = false) Boolean saleable,
+            @RequestParam(value = "key", required = false) String key
+    ) {
+        return ResponseEntity.ok(goodsService.querySpu(page,rows,saleable,key));
     }
 
     @PostMapping("goods")

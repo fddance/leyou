@@ -19,11 +19,15 @@ public interface GoodsClient {
 
     /**
      * 分页查询商品
-     * @param pageBean
      * @return
      */
     @RequestMapping("spu/page")
-    PageResult<Spu> querySpu(PageBean pageBean);
+    PageResult<Spu> querySpu(
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @RequestParam(value = "rows", defaultValue = "5") Integer rows,
+            @RequestParam(value = "saleable", required = false) Boolean saleable,
+            @RequestParam(value = "key", required = false) String key
+    );
 
     /**
      * 通过spu的id查询sku集合

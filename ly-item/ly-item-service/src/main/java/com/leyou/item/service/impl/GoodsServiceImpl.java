@@ -46,17 +46,15 @@ public class GoodsServiceImpl implements IGoodsService {
     private BrandMapper brandMapper;
 
     @Override
-    public PageResult<Spu> querySpu(PageBean pageBean) {
-        log.warn(pageBean.toString());
-        log.warn(pageBean.getRows().toString());
-        PageHelper.startPage(pageBean.getPage(), pageBean.getRows());
+    public PageResult<Spu> querySpu(Integer page, Integer rows, Boolean saleable, String key) {
+        PageHelper.startPage(page, rows);
         Example example = new Example(Spu.class);
         Example.Criteria criteria = example.createCriteria();
-        if (StringUtils.isNotBlank(pageBean.getKey())) {
-            criteria.andLike("title", "%" + pageBean.getKey() + "%");
+        if (StringUtils.isNotBlank(key)) {
+            criteria.andLike("title", "%" + key + "%");
         }
-        if (pageBean.getSaleable() != null) {
-            criteria.andEqualTo("saleable", pageBean.getSaleable());
+        if (saleable != null) {
+            criteria.andEqualTo("saleable", saleable);
         }
         criteria.andEqualTo("valid", true);
         example.setOrderByClause(" last_update_time desc");

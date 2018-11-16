@@ -11,10 +11,9 @@ import java.util.List;
 public interface IGoodsService {
     /**
      * 根据前端信息查询商品列表
-     * @param pageBean
      * @return
      */
-    PageResult<Spu> querySpu(PageBean pageBean);
+    PageResult<Spu> querySpu(Integer page, Integer rows, Boolean saleable, String key);
 
     /**
      * 添加商品详情
@@ -54,4 +53,5 @@ public interface IGoodsService {
      * @param id
      */
     void deleteGoodsById(Long id);
+
 }
