@@ -44,4 +44,11 @@ public interface IBrandService {
      * @return
      */
     Brand queryBrandById(Long id);
+
+    /**
+     * 根据idList集合查询Brand集合
+     * @param idList
+     * @return
+     */
+    List<Brand> queryBrandListByIds(List<Long> idList);
 }
