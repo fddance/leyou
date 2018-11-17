@@ -35,9 +35,6 @@ public class IndexService {
                 .stream().map(Category::getName).collect(Collectors.joining(" "));
         String brandName = brandClient.queryBrandById(spu.getBrandId()).getName();
         String all = spu.getTitle() + categoryName + brandName;
-
-        spu.getSkus()
-
         List<Sku> skuList = goodsClient.selectSkusBySpuId(spuId);
         Set<Long> priceList = skuList.stream().map(Sku::getPrice).collect(Collectors.toSet());
         List<Map<String, Object>> skus = new ArrayList<>();

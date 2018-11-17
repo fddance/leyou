@@ -58,4 +58,11 @@ public interface ISpecService {
      * @param pid
      */
     void deleteSpecParamByPid(Long pid);
+
+    /**
+     * 通过cid查询所有组及参数信息
+     * @param id
+     * @return
+     */
+    List<SpecGroup> selectAllGroupsAndParamsByCid(Long id);
 }

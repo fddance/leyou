@@ -26,7 +26,7 @@ public class GoodsController {
             @RequestParam(value = "saleable", required = false) Boolean saleable,
             @RequestParam(value = "key", required = false) String key
     ) {
-        return ResponseEntity.ok(goodsService.querySpu(page,rows,saleable,key));
+        return ResponseEntity.ok(goodsService.querySpu(page, rows, saleable, key));
     }
 
     @PostMapping("goods")
@@ -62,5 +62,10 @@ public class GoodsController {
     public ResponseEntity<Void> deleteGoodsById(@PathVariable("id") Long id) {
         goodsService.deleteGoodsById(id);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @GetMapping("spu/spu")
+    public ResponseEntity<Spu> selectSpuById(@RequestParam("id") Long id) {
+        return ResponseEntity.ok(goodsService.selectSpuById(id));
     }
 }

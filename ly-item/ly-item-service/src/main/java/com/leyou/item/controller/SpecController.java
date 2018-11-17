@@ -67,4 +67,9 @@ public class SpecController {
         specService.deleteSpecParamByPid(pid);
         return ResponseEntity.status(HttpStatus.CREATED).body(null);
     }
+
+    @GetMapping("all")
+    public ResponseEntity<List<SpecGroup>> selectAllGroupsAndParamsByCid(@RequestParam("id")Long id) {
+        return ResponseEntity.ok(specService.selectAllGroupsAndParamsByCid(id));
+    }
 }

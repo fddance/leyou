@@ -1,5 +1,6 @@
 package com.leyou.item.client;
 
+import com.leyou.item.pojo.SpecGroup;
 import com.leyou.item.pojo.SpecParam;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -18,4 +19,7 @@ public interface SpecClient {
             @RequestParam(value = "searching",required = false) Boolean searching
 
     );
+
+    @GetMapping("spec/all")
+    List<SpecGroup> selectAllGroupsAndParamsByCid(@RequestParam("id")Long id);
 }

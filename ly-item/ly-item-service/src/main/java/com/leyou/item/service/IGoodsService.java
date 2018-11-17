@@ -54,4 +54,10 @@ public interface IGoodsService {
      */
     void deleteGoodsById(Long id);
 
+    /**
+     * 通过id查询spu
+     * @param id
+     * @return
+     */
+    Spu selectSpuById(Long id);
 }

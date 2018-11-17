@@ -45,6 +45,14 @@ public interface GoodsClient {
     @GetMapping("spu/detail/{id}")
     SpuDetail selectGoodsDetail(@PathVariable("id") Long id);
 
+    /**
+     * 通过id查询spu
+     * @param id
+     * @return
+     */
+    @GetMapping("spu/spu")
+    Spu selectSpuById(@RequestParam("id") Long id) ;
+
 
 
 

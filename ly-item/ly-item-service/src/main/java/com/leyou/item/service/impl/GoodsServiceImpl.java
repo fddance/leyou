@@ -176,6 +176,15 @@ public class GoodsServiceImpl implements IGoodsService {
 //        deleteSkusAndStocks(id);
     }
 
+    @Override
+    public Spu selectSpuById(Long id) {
+        Spu spu = spuMapper.selectByPrimaryKey(id);
+        if (spu==null) {
+            throw new LyException(ExceptionEnum.BRAND_NOT_FOUND);
+        }
+        return spu;
+    }
+
     /**
      * TODO 插入商品sku信息及库存
      * @param spu

@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SpecServiceImpl implements ISpecService {
@@ -95,5 +96,15 @@ public class SpecServiceImpl implements ISpecService {
         if (count == 0) {
             throw new LyException(ExceptionEnum.UPDATE_SPECGROUP_SERVER_ERROR);
         }
+    }
+
+    @Override
+    public List<SpecGroup> selectAllGroupsAndParamsByCid(Long id) {
+        List<SpecGroup> specGroups = querySpecGroupsByCid(id);
+        for (SpecGroup specGroup : specGroups) {
+            List<SpecParam> specParams = querySpecParamsByGroupId(specGroup.getId(), id, null);
+            specGroup.setSpecParamList(specParams);
+        }
+        return specGroups;
     }
 }
