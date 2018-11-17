@@ -105,15 +105,15 @@ public class GoodesServiceImpl implements IGoodsService {
     private QueryBuilder bulidBasicQuery(SearchRequest searchRequest) {
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
         boolQueryBuilder.must(QueryBuilders.matchQuery("all", searchRequest.getKey()));
-       /* Map<String, String> filters = searchRequest.getFilters();
+        Map<String, String> filters = searchRequest.getFilters();
         for (Map.Entry<String, String> entry : filters.entrySet()) {
             String key = entry.getKey();
             if (!key.equals("brandId") && !key.equals("cid3")) {
                 key = "specs." + key + ".keyword";
             }
             String value = entry.getValue();
-            boolQueryBuilder.filter(QueryBuilders.termQuery("key", "value"));
-        }*/
+            boolQueryBuilder.filter(QueryBuilders.termQuery(key, value));
+        }
         return boolQueryBuilder;
     }
 
@@ -122,7 +122,7 @@ public class GoodesServiceImpl implements IGoodsService {
      * @param idList
      */
     private void handleSpecAgg(List<Long> idList,List<Map<String, Object>> filterList,QueryBuilder basicQuery) {
-        List<SpecParam> specParams = specClient.querySpecParamsByGroupId(null, idList.get(0), null);
+        List<SpecParam> specParams = specClient.querySpecParamsByGroupId(null, idList.get(0), true);
         NativeSearchQueryBuilder queryBuilder = new NativeSearchQueryBuilder();
         queryBuilder.withQuery(basicQuery);
         queryBuilder.withPageable(PageRequest.of(0, 1));
@@ -136,11 +136,14 @@ public class GoodesServiceImpl implements IGoodsService {
             StringTerms aggregation = aggs.get(specParam.getName());
             List<String> options = aggregation.getBuckets().stream().map(b -> b.getKeyAsString())
                     .filter(s -> StringUtils.isNotBlank(s)).collect(Collectors.toList());
-            HashMap<String, Object> map = new HashMap<>();
-            map.put("k", specParam.getName());
-            map.put("options", options);
-            filterList.add(map);
+            if (options != null && options.size() > 1) {
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("k", specParam.getName());
+                map.put("options", options);
+                filterList.add(map);
+            }
         }
+
 
     }
 

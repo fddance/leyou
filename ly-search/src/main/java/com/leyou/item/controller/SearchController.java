@@ -20,7 +20,7 @@ public class SearchController {
     @PostMapping("page")
     public ResponseEntity<SearchResult<Goods>> getGoodsListByPage(@RequestBody SearchRequest searchRequest) {
         SearchResult<Goods> listByPage = goodsService.getGoodsListByPage(searchRequest);
-        System.out.println("listByPage = " + listByPage);
+//        System.out.println("listByPage = " + listByPage);
         return ResponseEntity.ok(listByPage);
     }
 }
