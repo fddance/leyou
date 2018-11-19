@@ -10,4 +10,6 @@ public interface ICategoryService {
     List<Category> queryCategoryByBid(Long bid);
 
     List<Category> queryCategoryListByIds(List<Long> ids);
+
+    List<String> queryCnameListByCid3(Long cid3);
 }

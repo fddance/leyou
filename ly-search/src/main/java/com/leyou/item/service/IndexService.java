@@ -60,7 +60,7 @@ public class IndexService {
             if (specParam.getGeneric()) {
                 value = genericSpec.get(specParam.getId());
                 if (specParam.getNumeric()) {
-                    chooseSegment(value.toString(), specParam);
+                    value = chooseSegment(value.toString(), specParam);
                 }
             } else {
                 value = specialSpec.get(specParam.getId());

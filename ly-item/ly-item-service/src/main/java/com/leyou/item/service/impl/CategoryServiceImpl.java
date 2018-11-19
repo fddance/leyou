@@ -9,10 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
-public class CategoryServiceImpl implements ICategoryService{
+public class CategoryServiceImpl implements ICategoryService {
 
     @Autowired
     private CategoryMapper categoryMapper;
@@ -45,4 +47,17 @@ public class CategoryServiceImpl implements ICategoryService{
         }
         return categoryList;
     }
+
+    @Override
+    public List<String> queryCnameListByCid3(Long cid3) {
+        ArrayList<String> cnames = new ArrayList<>();
+        Category category3 = categoryMapper.selectByPrimaryKey(cid3);
+        Category category2 = categoryMapper.selectByPrimaryKey(category3.getParentId());
+        Category category1 = categoryMapper.selectByPrimaryKey(category2.getParentId());
+        cnames.add(category1.getName());
+        cnames.add(category2.getName());
+        cnames.add(category3.getName());
+        return cnames;
+    }
 }
+

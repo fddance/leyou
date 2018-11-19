@@ -21,5 +21,5 @@ public class SpecGroup {
     private String name;
 
     @Transient
-    private List<SpecParam> specParamList;
+    private List<SpecParam> params;
 }
