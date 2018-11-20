@@ -12,6 +12,11 @@ spring:
       enabled: always
   jackson:
     default-property-inclusion: non_null
+  rabbitmq:
+    host: 192.168.56.110
+    username: leyou
+    password: leyou
+    virtual-host: /leyou
 eureka:
   client:
     service-url:

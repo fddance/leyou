@@ -11,6 +11,8 @@ import com.leyou.item.pojo.*;
 import com.leyou.item.service.IGoodsService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.amqp.AmqpException;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,6 +46,9 @@ public class GoodsServiceImpl implements IGoodsService {
 
     @Autowired
     private BrandMapper brandMapper;
+
+    @Autowired
+    private AmqpTemplate amqpTemplate;
 
     @Override
     public PageResult<Spu> querySpu(Integer page, Integer rows, Boolean saleable, String key) {
@@ -96,6 +101,7 @@ public class GoodsServiceImpl implements IGoodsService {
             throw new LyException(ExceptionEnum.INSERT_GOODS_SERVER_ERROR);
         }
         addSkusAndStocks(spu);
+        sendMessage(spu_id, "insert");
 
     }
 
@@ -147,6 +153,7 @@ public class GoodsServiceImpl implements IGoodsService {
         }
         deleteSkusAndStocks(spu_id);
         addSkusAndStocks(spu);
+        sendMessage(spu_id,"update");
     }
 
     @Override
@@ -228,5 +235,19 @@ public class GoodsServiceImpl implements IGoodsService {
         if (count != select.size()) {
             throw new LyException(ExceptionEnum.UPDATE_GOODS_SERVER_ERROR);
         }
+    }
+
+    /**
+     * 商品信息发生改变后向监听着发送信息更新资源
+     * @param id
+     * @param type
+     */
+    private void sendMessage(Long id, String type) {
+        try {
+            amqpTemplate.convertAndSend("item." + type, id);
+        } catch (Exception e) {
+            log.error("{}商品消息发送异常，商品id：{}", type, id, e);
+        }
+
     }
 }

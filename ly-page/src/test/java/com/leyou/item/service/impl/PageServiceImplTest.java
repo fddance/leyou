@@ -19,7 +19,7 @@ public class PageServiceImplTest {
     @Test
     public void creatItemHtml() {
         for (int i = 2; i < 183; i++) {
-            pageService.creatItemHtml((long) i);
+            pageService.createHtml((long) i);
         }
     }
 }

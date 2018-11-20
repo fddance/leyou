@@ -5,9 +5,12 @@ import com.leyou.item.client.BrandClient;
 import com.leyou.item.client.CategoryClient;
 import com.leyou.item.client.GoodsClient;
 import com.leyou.item.client.SpecClient;
+import com.leyou.item.common.enums.ExceptionEnum;
+import com.leyou.item.common.exception.LyException;
 import com.leyou.item.common.utils.JsonUtils;
 import com.leyou.item.common.utils.NumberUtils;
 import com.leyou.item.pojo.*;
+import com.leyou.item.repository.GoodsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +30,9 @@ public class IndexService {
 
     @Autowired
     private SpecClient specClient;
+
+    @Autowired
+    private GoodsRepository goodsRepository;
 
     public Goods bulidGoods(Spu spu) {
         Long spuId = spu.getId();
@@ -111,5 +117,18 @@ public class IndexService {
             }
         }
         return result;
+    }
+
+    public void updateOrInsertSpu(Long id) {
+        Spu spu = goodsClient.selectSpuById(id);
+        if (spu == null) {
+            throw new LyException(ExceptionEnum.GOODS_NOT_FOUND);
+        }
+        Goods goods = this.bulidGoods(spu);
+        goodsRepository.save(goods);
+    }
+
+    public void delete(Long id) {
+        goodsRepository.deleteById(id);
     }
 }

@@ -60,7 +60,7 @@ public class PageServiceImpl implements IPageService {
         return data;
     }
 
-    public void creatItemHtml(Long spuId) {
+    public void createHtml(Long spuId) {
         Context context = new Context();
         context.setVariables(getData(spuId));
         File file = getFilePath(spuId);
@@ -79,5 +79,11 @@ public class PageServiceImpl implements IPageService {
         return new File(file, spuId + ".html");
     }
 
-
+    @Override
+    public void deleteHtml(Long id) {
+        File filePath = getFilePath(id);
+        if (filePath.exists()) {
+            filePath.delete();
+        }
+    }
 }
