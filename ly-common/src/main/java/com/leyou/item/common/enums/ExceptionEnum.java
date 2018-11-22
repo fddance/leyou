@@ -25,6 +25,7 @@ public enum  ExceptionEnum {
     INSERT_GOODS_SERVER_ERROR(500, "新增商品详情时失败"),
     UPDATE_GOODS_SERVER_ERROR(500, "修改商品详情时失败"),
     BID_CANNOT_BE_NULL(400,"bid不能为空"),
+    INVALID_PARAM_TYPE(400,"无效参数类型"),
     ;
 
     private Integer status;

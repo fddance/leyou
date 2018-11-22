@@ -6,6 +6,8 @@ spring:
   servlet:
     multipart:
       max-file-size: 10MB
+  redis:
+    host: 192.168.56.110
 eureka:
   client:
     service-url:
