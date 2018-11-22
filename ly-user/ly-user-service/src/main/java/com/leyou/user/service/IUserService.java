@@ -8,4 +8,6 @@ public interface IUserService {
     void sendCheckCode(String phone);
 
     void addUser(User user, String code);
+
+    User queryUser(String username, String password);
 }

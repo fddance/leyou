@@ -1,4 +1,4 @@
-package com.leyou.user;
+package com.leyou;
 
 
 import org.springframework.boot.SpringApplication;
