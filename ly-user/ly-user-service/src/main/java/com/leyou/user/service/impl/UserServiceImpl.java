@@ -6,11 +6,13 @@ import com.leyou.item.common.utils.NumberUtils;
 import com.leyou.user.mapper.UserMapper;
 import com.leyou.user.pojo.User;
 import com.leyou.user.service.IUserService;
+import com.leyou.user.utils.CodecUtils;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -33,10 +35,10 @@ public class UserServiceImpl implements IUserService {
         User user = new User();
         switch (type) {
             case 1:
-                user.setPhone(data);
+                user.setUsername(data);
                 break;
             case 2:
-                user.setUsername(data);
+                user.setPhone(data);
                 break;
             default:
                 throw new LyException(ExceptionEnum.INVALID_PARAM_TYPE);
@@ -60,5 +62,24 @@ public class UserServiceImpl implements IUserService {
         amqpTemplate.convertAndSend("ly.sms.exchange", "sms.verify.code", map);
 
         redisTemplate.opsForValue().set(key, code, 5, TimeUnit.MINUTES);
+    }
+
+    @Override
+    public void addUser(User user, String code) {
+        user.setId(null);
+        user.setCreated(new Date());
+        String key = KEY_PREFIX + user.getPhone();
+        String code_1 = redisTemplate.opsForValue().get(key);
+        if (!code.equals(code_1)) {
+            throw new LyException(ExceptionEnum.INVALID_PARAM_TYPE);
+        }
+        String salt = CodecUtils.generateSalt();
+        user.setSalt(salt);
+        user.setPassword(CodecUtils.md5Hex(user.getPassword(), user.getSalt()));
+        int count = userMapper.insert(user);
+        if (count != 1) {
+            throw new LyException(ExceptionEnum.INSERT_USER_SERVER_ERROR);
+        }
+        redisTemplate.delete(key);
     }
 }
