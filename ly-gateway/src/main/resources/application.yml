@@ -13,10 +13,13 @@ zuul:
     item-service: /item/**
     search-service: /search/**
     user-service: /user/**
+    auth-service: /auth/**
     upload-service:
       path: /upload/**
       service: upload-service
       strip-prefix: false
+  add-host-header: true #携带请求本身的host头信息
+  sensitive-headers:  #禁止使用的头信息，设置为空，否者set-cookie无效
 hystrix:
   command:
     default:

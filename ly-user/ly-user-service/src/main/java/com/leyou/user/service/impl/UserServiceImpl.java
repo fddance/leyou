@@ -89,10 +89,10 @@ public class UserServiceImpl implements IUserService {
         user.setUsername(username);
         user = userMapper.selectOne(user);
         if (user == null) {
-            throw new LyException(ExceptionEnum.CUSTOM_ERROR.write(400, "用户名或密码错误"));
+            throw new LyException(ExceptionEnum.CUSTOM_ERROR.init(400, "用户名或密码错误"));
         }
         if(!user.getPassword().equals(CodecUtils.md5Hex(password, user.getSalt()))){
-            throw new LyException(ExceptionEnum.CUSTOM_ERROR.write(400, "用户名或密码错误"));
+            throw new LyException(ExceptionEnum.CUSTOM_ERROR.init(400, "用户名或密码错误"));
         }
         return user;
     }

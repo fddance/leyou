@@ -54,7 +54,7 @@ public class UserController {
     public ResponseEntity<Void> addUser(@Valid User user, BindingResult result, @RequestParam("code") String code) {
         if (result.hasFieldErrors()) {
             String collect = result.getFieldErrors().stream().map(FieldError::getDefaultMessage).collect(Collectors.joining("|"));
-            throw new LyException(ExceptionEnum.CUSTOM_ERROR.write(400, collect));
+            throw new LyException(ExceptionEnum.CUSTOM_ERROR.init(400, collect));
         }
         userService.addUser(user, code);
         return ResponseEntity.status(HttpStatus.CREATED).build();

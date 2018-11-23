@@ -27,13 +27,14 @@ public enum  ExceptionEnum {
     INSERT_USER_SERVER_ERROR(500, "修改商品详情时失败"),
     BID_CANNOT_BE_NULL(400,"bid不能为空"),
     INVALID_PARAM_TYPE(400,"无效参数类型"),
+    INVALID_USERNAME_OR_PASSWORD(400, "用户名或密码错误"),
     CUSTOM_ERROR(0, "未知错误"),
     ;
 
     private Integer status;
     private String msg;
 
-    public ExceptionEnum write(Integer status, String msg) {
+    public ExceptionEnum init(Integer status, String msg) {
         this.status = status;
         this.msg = msg;
         return this;
