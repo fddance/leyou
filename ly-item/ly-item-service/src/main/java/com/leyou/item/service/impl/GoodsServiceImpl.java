@@ -19,10 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import tk.mybatis.mapper.entity.Example;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -192,8 +189,22 @@ public class GoodsServiceImpl implements IGoodsService {
         return spu;
     }
 
+    @Override
+    public List<Sku> selectSkusByIds(List<Long> ids) {
+        List<Sku> skus = skuMapper.selectByIdList(ids);
+        if (CollectionUtils.isEmpty(skus)) {
+            throw new LyException(ExceptionEnum.SKU_LIST_NOT_FOUND);
+        }
+        Map<Long, Integer> stockMap = skus.stream().map(Sku::getId).map(stockMapper::selectByPrimaryKey).collect(Collectors.toMap(Stock::getSkuId, Stock::getStock));
+        skus = skus.stream().map(sku -> {
+            sku.setStock(stockMap.get(sku.getId()));
+            return sku;
+        }).collect(Collectors.toList());
+        return skus;
+    }
+
     /**
-     * TODO 插入商品sku信息及库存
+     *  插入商品sku信息及库存
      * @param spu
      */
     private void addSkusAndStocks(Spu spu) {
@@ -219,7 +230,7 @@ public class GoodsServiceImpl implements IGoodsService {
     }
 
     /**
-     * TODO 根据商品spu的id删除商品sku信息及库存
+     *  根据商品spu的id删除商品sku信息及库存
      * @param spu_id
      */
     private void deleteSkusAndStocks(Long spu_id) {

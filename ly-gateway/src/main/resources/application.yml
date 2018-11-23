@@ -47,3 +47,14 @@ ly:
       - HEAD
       - PATCH
     maxAge: 3600
+  jwt:
+    pubKeyPath: E:\\heima\\ssh\\ssh.pub # 公钥地址
+    cookieName: LY_TOKEN
+  filter:
+    allowPaths:
+      - /api/auth
+      - /api/search
+      - /api/user/register
+      - /api/user/check
+      - /api/user/code
+      - /api/item

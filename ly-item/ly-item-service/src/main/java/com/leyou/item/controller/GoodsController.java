@@ -68,4 +68,14 @@ public class GoodsController {
     public ResponseEntity<Spu> selectSpuById(@RequestParam("id") Long id) {
         return ResponseEntity.ok(goodsService.selectSpuById(id));
     }
+
+    /**
+     * 通过sku的id集合查询sku集合
+     * @param ids
+     * @return
+     */
+    @GetMapping("sku/list/ids")
+    public ResponseEntity<List<Sku>> selectByIds(@RequestParam("ids") List<Long> ids) {
+        return ResponseEntity.ok(goodsService.selectSkusByIds(ids));
+    }
 }

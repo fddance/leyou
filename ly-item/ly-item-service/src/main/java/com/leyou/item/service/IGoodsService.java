@@ -60,4 +60,6 @@ public interface IGoodsService {
      * @return
      */
     Spu selectSpuById(Long id);
+
+    List<Sku> selectSkusByIds(List<Long> ids);
 }

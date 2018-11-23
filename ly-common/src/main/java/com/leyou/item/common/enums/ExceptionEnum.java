@@ -12,6 +12,7 @@ public enum  ExceptionEnum {
     CATEGORY_NOT_FOUND(404, "商品静态资源未找到"),
     SPECGROUP_NOT_FOUND(404, "商品详情资源未找到"),
     SPU_NOT_FOUND(404, "spu详情资源未找到"),
+    SKU_LIST_NOT_FOUND(404, "spu详情资源未找到"),
     BRAND_NOT_FOUND(404, "品牌静态资源未找到"),
     GOODS_NOT_FOUND(404, "商品详情未找到"),
     INSERT_BRAND_SERVER_ERROR(500, "新增品牌失败"),
