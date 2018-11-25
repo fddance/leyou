@@ -26,6 +26,7 @@ public enum  ExceptionEnum {
     INSERT_GOODS_SERVER_ERROR(500, "新增商品详情时失败"),
     UPDATE_GOODS_SERVER_ERROR(500, "修改商品详情时失败"),
     INSERT_USER_SERVER_ERROR(500, "修改商品详情时失败"),
+    CART_SERVER_ERROR(500, "购物车出现错误"),
     BID_CANNOT_BE_NULL(400,"bid不能为空"),
     INVALID_PARAM_TYPE(400,"无效参数类型"),
     INVALID_USERNAME_OR_PASSWORD(400, "用户名或密码错误"),
